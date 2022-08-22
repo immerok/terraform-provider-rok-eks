@@ -8,6 +8,6 @@ import (
 
 func main() {
 	providerserver.Serve(context.Background(), eks.New, providerserver.ServeOpts{
-		Address: "registry.terraform.io/immerok/ok-eks",
+		Address: "registry.terraform.io/immerok/rok-eks",
 	})
 }

@@ -11,32 +11,15 @@ import (
 	k8stypes "k8s.io/apimachinery/pkg/types"
 )
 
-type disabledAddonType struct {
-}
-
 type disabledAddon struct {
 	provider *eksProvider
 }
 
+type disabledAddonType struct {
+}
+
 type disabledAddonState struct {
 	Name types.String `tfsdk:"name"`
-}
-
-func (d disabledAddonType) GetSchema(ctx context.Context) (tfsdk.Schema, diag.Diagnostics) {
-	return tfsdk.Schema{
-		Attributes: map[string]tfsdk.Attribute{
-			"name": {
-				Type:     types.StringType,
-				Required: true,
-			},
-		},
-	}, nil
-}
-
-func (d disabledAddonType) NewResource(ctx context.Context, provider provider.Provider) (resource.Resource, diag.Diagnostics) {
-	return &disabledAddon{
-		provider: provider.(*eksProvider),
-	}, nil
 }
 
 func (d *disabledAddon) Create(ctx context.Context, request resource.CreateRequest, response *resource.CreateResponse) {
@@ -66,15 +49,32 @@ func (d *disabledAddon) Create(ctx context.Context, request resource.CreateReque
 }
 
 func (d *disabledAddon) Read(ctx context.Context, request resource.ReadRequest, response *resource.ReadResponse) {
-	panic("implement me")
+	// no-op
 }
 
 func (d *disabledAddon) Update(ctx context.Context, request resource.UpdateRequest, response *resource.UpdateResponse) {
-	panic("implement me")
+	// no-op
 }
 
 func (d *disabledAddon) Delete(ctx context.Context, request resource.DeleteRequest, response *resource.DeleteResponse) {
-	panic("implement me")
+	// no-op
+}
+
+func (d disabledAddonType) GetSchema(ctx context.Context) (tfsdk.Schema, diag.Diagnostics) {
+	return tfsdk.Schema{
+		Attributes: map[string]tfsdk.Attribute{
+			"name": {
+				Type:     types.StringType,
+				Required: true,
+			},
+		},
+	}, nil
+}
+
+func (d disabledAddonType) NewResource(ctx context.Context, provider provider.Provider) (resource.Resource, diag.Diagnostics) {
+	return &disabledAddon{
+		provider: provider.(*eksProvider),
+	}, nil
 }
 
 func (d *disabledAddon) ModifyPlan(ctx context.Context, request resource.ModifyPlanRequest, response *resource.ModifyPlanResponse) {

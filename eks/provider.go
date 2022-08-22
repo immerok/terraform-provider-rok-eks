@@ -27,6 +27,11 @@ type eksProviderConfig struct {
 }
 
 func (p *eksProvider) Configure(ctx context.Context, request provider.ConfigureRequest, response *provider.ConfigureResponse) {
+	if !request.Config.Raw.IsFullyKnown() {
+		// Some resources that we depend on might not exist during the plan phase.
+		return
+	}
+
 	var providerConfig eksProviderConfig
 	response.Diagnostics.Append(request.Config.Get(ctx, &providerConfig)...)
 	if response.Diagnostics.HasError() {
@@ -56,6 +61,7 @@ func (p *eksProvider) Configure(ctx context.Context, request provider.ConfigureR
 func (p *eksProvider) GetResources(_ context.Context) (map[string]provider.ResourceType, diag.Diagnostics) {
 	return map[string]provider.ResourceType{
 		"rok_eks_cluster_addon_disabled": &disabledAddonType{},
+		"rok_eks_coredns_running":        &corednsRunningType{},
 	}, nil
 }
 
